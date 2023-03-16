@@ -1,2 +1,2 @@
-# ComeAndSeeMyReps
-Just repping it up 
+regenerate
+AI assisted insight generator + visualisation tool
