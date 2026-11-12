@@ -33,7 +33,7 @@
     const host = $("shoppingList"); host.replaceChildren();
     items.forEach((item,index) => {
       const row = document.createElement("div"); row.className="shop-item";
-      const name=document.createElement("input"); name.value=item.name; name.setAttribute("aria-label","Item name"); name.addEventListener("input",()=>{item.name=name.value;});
+      const name=document.createElement("input"); name.value=item.name; name.setAttribute("aria-label","Item name"); name.addEventListener("input",()=>{item.name=name.value;remove.setAttribute("aria-label","Remove "+item.name);link.setAttribute("aria-label","Search retailer listings for "+item.name);});
       const price=document.createElement("input"); price.type="number"; price.min="0"; price.step="10"; price.value=item.price; price.className="price-input"; price.setAttribute("aria-label","Estimated price for "+item.name); price.addEventListener("input",()=>{item.price=Math.max(0,Number(price.value)||0);updateTotals();});
       const remove=document.createElement("button"); remove.type="button"; remove.className="remove-item"; remove.textContent="×"; remove.setAttribute("aria-label","Remove "+item.name); remove.addEventListener("click",()=>{items.splice(index,1);renderItems();});
       const link=document.createElement("a"); link.href="https://www.amazon.com/s?k="+encodeURIComponent(item.query||item.name+" furniture"); link.target="_blank"; link.rel="noopener noreferrer"; link.textContent="Find"; link.className="find-link"; link.setAttribute("aria-label","Search retailer listings for "+item.name);
