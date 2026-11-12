@@ -1,0 +1,25 @@
+name: RoomRevamp checks
+on:
+  push:
+    branches: ["roomrevamp/initial-build"]
+  pull_request:
+    paths:
+      - "roomrevamp/**"
+      - ".github/workflows/roomrevamp-check.yml"
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check JavaScript syntax
+        run: node --check roomrevamp/app/app.js
+      - name: Check required app features are present
+        run: |
+          grep -q 'addEventListener("input", syncBudgetDisplay)' roomrevamp/app/app.js
+          grep -q 'addEventListener("change", syncBudgetDisplay)' roomrevamp/app/app.js
+          grep -q 'roomPhoto' roomrevamp/app/index.html
+          grep -q 'Create my design brief' roomrevamp/app/index.html
+          grep -q 'encodeURIComponent' roomrevamp/app/app.js
