@@ -79,6 +79,20 @@ test("brief copy and download actions are wired", async ({ page, context }) => {
   expect(download.suggestedFilename()).toBe("roomrevamp-design-brief.txt");
 });
 
+test("planner choices and shopping list survive a page refresh", async ({ page }) => {
+  await page.locator("#budget").fill("5000");
+  await page.locator("#roomType").selectOption("Bedroom");
+  await page.getByRole("button", { name: "Coastal" }).click();
+  await page.getByRole("button", { name: "＋ Add an item" }).click();
+  await page.locator(".shop-item").last().locator('input[aria-label="Item name"]').fill("Floor mirror");
+  await page.reload();
+  await expect(page.locator("#budgetOut")).toHaveText("$5,000");
+  await expect(page.locator("#roomType")).toHaveValue("Bedroom");
+  await expect(page.getByRole("button", { name: "Coastal" })).toHaveClass(/active/);
+  await expect(page.locator(".shop-item").last().locator('input[aria-label="Item name"]')).toHaveValue("Floor mirror");
+});
+
+
 test("layout does not create horizontal page overflow on mobile", async ({ page, isMobile }) => {
   if (!isMobile) test.skip();
   const dimensions = await page.evaluate(() => ({
