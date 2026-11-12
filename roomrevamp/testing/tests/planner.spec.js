@@ -39,7 +39,7 @@ test("shopping list can add, edit, remove, and calculate totals", async ({ page 
   await last.locator('input[aria-label="Item name"]').fill("Floor mirror");
   await last.locator('input[type="number"]').fill("225");
   await expect(page.locator("#total")).toHaveText("$2,605");
-  await expect(last.getByRole("link", { name: "Search retailer listings for Floor mirror" })).toHaveAttribute("href", /amazon\.com\/s\?k=/);
+  await expect(last.getByRole("link", { name: "Search retailer listings for Floor mirror" })).toHaveAttribute("href", /k=Floor%20mirror%20furniture/);
   await last.getByRole("button", { name: "Remove Floor mirror" }).click();
   await expect(page.locator(".shop-item")).toHaveCount(before);
 });
