@@ -52,7 +52,8 @@
     $("total").textContent = money(total);
     $("remaining").textContent = money(limit-total);
     $("remaining").style.color = total > limit ? "#a24d3e" : "";
-    $("remainingLabel").textContent = total > limit ? "Over budget" : "Remaining budget";\n    persistPlannerState();
+    $("remainingLabel").textContent = total > limit ? "Over budget" : "Remaining budget";
+    persistPlannerState();
   }
   function renderItems() {
     const host = $("shoppingList"); host.replaceChildren();
