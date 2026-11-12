@@ -68,7 +68,11 @@
   }
   $("addItem").addEventListener("click",()=>{items.push({name:"New item",price:100,query:""});renderItems();});
   $("styles").addEventListener("click",event=>{const button=event.target.closest("button[data-style]");if(!button)return;selectedStyle=button.dataset.style;document.querySelectorAll(".style").forEach(el=>el.classList.toggle("active",el===button));persistPlannerState();});
-  $("roomType").addEventListener("change",persistPlannerState);\n  $("roomSize").addEventListener("change",persistPlannerState);\n  document.querySelectorAll(".style").forEach(el=>el.classList.toggle("active",el.dataset.style===selectedStyle));\n  let photoObjectUrl = null;\n  $("roomPhoto").addEventListener("change",event=>{const file=event.target.files&&event.target.files[0];if(!file)return;if(!file.type.startsWith("image/")){alert("Please choose an image file.");return;}if(photoObjectUrl)URL.revokeObjectURL(photoObjectUrl);photoObjectUrl=URL.createObjectURL(file);$("previewImage").src=photoObjectUrl;$("photoPreview").hidden=false;$("roomPhoto").closest(".upload").hidden=true;});
+  $("roomType").addEventListener("change",persistPlannerState);
+  $("roomSize").addEventListener("change",persistPlannerState);
+  document.querySelectorAll(".style").forEach(el=>el.classList.toggle("active",el.dataset.style===selectedStyle));
+  let photoObjectUrl = null;
+  $("roomPhoto").addEventListener("change",event=>{const file=event.target.files&&event.target.files[0];if(!file)return;if(!file.type.startsWith("image/")){alert("Please choose an image file.");return;}if(photoObjectUrl)URL.revokeObjectURL(photoObjectUrl);photoObjectUrl=URL.createObjectURL(file);$("previewImage").src=photoObjectUrl;$("photoPreview").hidden=false;$("roomPhoto").closest(".upload").hidden=true;});
   $("removePhoto").addEventListener("click",()=>{if(photoObjectUrl){URL.revokeObjectURL(photoObjectUrl);photoObjectUrl=null;}$("previewImage").removeAttribute("src");$("photoPreview").hidden=true;$("roomPhoto").value="";$("roomPhoto").closest(".upload").hidden=false;});
   function buildBrief() {
     const total=items.reduce((sum,item)=>sum+Math.max(0,Number(item.price)||0),0);
