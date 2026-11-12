@@ -11,6 +11,31 @@
     {name:"Accent chair",price:400,query:"accent chair"},
     {name:"Wall art & decor",price:150,query:"wall art home decor"}
   ];
+  const STORAGE_KEY = "roomrevamp-planner-v1";
+  function restorePlannerState() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+      if (!saved || typeof saved !== "object") return;
+      if (typeof saved.budget === "number") budget.value = String(Math.min(Number(budget.max), Math.max(Number(budget.min), saved.budget)));
+      if (typeof saved.selectedStyle === "string" && document.querySelector('[data-style="' + CSS.escape(saved.selectedStyle) + '"]')) selectedStyle = saved.selectedStyle;
+      if (Array.isArray(saved.items)) items = saved.items.slice(0, 100).map(item => ({
+        name: String(item.name || "Item").slice(0, 100),
+        price: Math.max(0, Math.min(1000000, Number(item.price) || 0)),
+        query: String(item.query || "").slice(0, 160)
+      }));
+      if (typeof saved.roomType === "string" && [...$("roomType").options].some(option => option.value === saved.roomType)) $("roomType").value = saved.roomType;
+      if (typeof saved.roomSize === "string" && [...$("roomSize").options].some(option => option.value === saved.roomSize)) $("roomSize").value = saved.roomSize;
+    } catch { /* Ignore unavailable or invalid local storage. */ }
+  }
+  function persistPlannerState() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        budget: Number(budget.value), selectedStyle, items,
+        roomType: $("roomType").value, roomSize: $("roomSize").value
+      }));
+    } catch { /* The planner remains usable when storage is unavailable. */ }
+  }
+  restorePlannerState();
   const money = n => "$" + Math.round(n).toLocaleString("en-US");
   function syncBudgetDisplay() {
     const amount = Number(budget.value);
@@ -27,7 +52,7 @@
     $("total").textContent = money(total);
     $("remaining").textContent = money(limit-total);
     $("remaining").style.color = total > limit ? "#a24d3e" : "";
-    $("remainingLabel").textContent = total > limit ? "Over budget" : "Remaining budget";
+    $("remainingLabel").textContent = total > limit ? "Over budget" : "Remaining budget";\n    persistPlannerState();
   }
   function renderItems() {
     const host = $("shoppingList"); host.replaceChildren();
@@ -41,8 +66,8 @@
     }); updateTotals();
   }
   $("addItem").addEventListener("click",()=>{items.push({name:"New item",price:100,query:""});renderItems();});
-  $("styles").addEventListener("click",event=>{const button=event.target.closest("button[data-style]");if(!button)return;selectedStyle=button.dataset.style;document.querySelectorAll(".style").forEach(el=>el.classList.toggle("active",el===button));});
-  $("roomPhoto").addEventListener("change",event=>{const file=event.target.files&&event.target.files[0];if(!file)return;if(!file.type.startsWith("image/")){alert("Please choose an image file.");return;}const url=URL.createObjectURL(file);$("previewImage").src=url;$("photoPreview").hidden=false;$("roomPhoto").closest(".upload").hidden=true;});
+  $("styles").addEventListener("click",event=>{const button=event.target.closest("button[data-style]");if(!button)return;selectedStyle=button.dataset.style;document.querySelectorAll(".style").forEach(el=>el.classList.toggle("active",el===button));persistPlannerState();});
+  $("roomType").addEventListener("change",persistPlannerState);\n  $("roomSize").addEventListener("change",persistPlannerState);\n  document.querySelectorAll(".style").forEach(el=>el.classList.toggle("active",el.dataset.style===selectedStyle));\n  $("roomPhoto").addEventListener("change",event=>{const file=event.target.files&&event.target.files[0];if(!file)return;if(!file.type.startsWith("image/")){alert("Please choose an image file.");return;}const url=URL.createObjectURL(file);$("previewImage").src=url;$("photoPreview").hidden=false;$("roomPhoto").closest(".upload").hidden=true;});
   $("removePhoto").addEventListener("click",()=>{$("previewImage").removeAttribute("src");$("photoPreview").hidden=true;$("roomPhoto").value="";$("roomPhoto").closest(".upload").hidden=false;});
   function buildBrief() {
     const total=items.reduce((sum,item)=>sum+Math.max(0,Number(item.price)||0),0);
