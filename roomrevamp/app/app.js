@@ -33,14 +33,14 @@
     const host = $("shoppingList"); host.replaceChildren();
     items.forEach((item,index) => {
       const row = document.createElement("div"); row.className="shop-item";
-      const name=document.createElement("input"); name.value=item.name; name.setAttribute("aria-label","Item name"); name.addEventListener("input",()=>{item.name=name.value;remove.setAttribute("aria-label","Remove "+item.name);link.setAttribute("aria-label","Search retailer listings for "+item.name);});
+      const name=document.createElement("input"); name.value=item.name; name.setAttribute("aria-label","Item name"); name.addEventListener("input",()=>{item.name=name.value;remove.setAttribute("aria-label","Remove "+item.name);link.setAttribute("aria-label","Search retailer listings for "+item.name);if(!item.query)link.href="https://www.amazon.com/s?k="+encodeURIComponent(item.name+" furniture");});
       const price=document.createElement("input"); price.type="number"; price.min="0"; price.step="10"; price.value=item.price; price.className="price-input"; price.setAttribute("aria-label","Estimated price for "+item.name); price.addEventListener("input",()=>{item.price=Math.max(0,Number(price.value)||0);updateTotals();});
       const remove=document.createElement("button"); remove.type="button"; remove.className="remove-item"; remove.textContent="×"; remove.setAttribute("aria-label","Remove "+item.name); remove.addEventListener("click",()=>{items.splice(index,1);renderItems();});
       const link=document.createElement("a"); link.href="https://www.amazon.com/s?k="+encodeURIComponent(item.query||item.name+" furniture"); link.target="_blank"; link.rel="noopener noreferrer"; link.textContent="Find"; link.className="find-link"; link.setAttribute("aria-label","Search retailer listings for "+item.name);
       row.append(name,price,remove,link);host.append(row);
     }); updateTotals();
   }
-  $("addItem").addEventListener("click",()=>{items.push({name:"New item",price:100,query:"home furniture"});renderItems();});
+  $("addItem").addEventListener("click",()=>{items.push({name:"New item",price:100,query:""});renderItems();});
   $("styles").addEventListener("click",event=>{const button=event.target.closest("button[data-style]");if(!button)return;selectedStyle=button.dataset.style;document.querySelectorAll(".style").forEach(el=>el.classList.toggle("active",el===button));});
   $("roomPhoto").addEventListener("change",event=>{const file=event.target.files&&event.target.files[0];if(!file)return;if(!file.type.startsWith("image/")){alert("Please choose an image file.");return;}const url=URL.createObjectURL(file);$("previewImage").src=url;$("photoPreview").hidden=false;$("roomPhoto").closest(".upload").hidden=true;});
   $("removePhoto").addEventListener("click",()=>{$("previewImage").removeAttribute("src");$("photoPreview").hidden=true;$("roomPhoto").value="";$("roomPhoto").closest(".upload").hidden=false;});
