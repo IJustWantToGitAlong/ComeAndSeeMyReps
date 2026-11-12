@@ -12,7 +12,9 @@ module.exports = defineConfig({
   },
   projects: [
     { name: "desktop-chromium", use: { ...devices["Desktop Chrome"] } },
-    { name: "mobile-chromium", use: { ...devices["iPhone 13"] } }
+    // Keep the iPhone viewport/touch emulation, but use Chromium because CI
+    // installs Chromium only. This avoids requiring a separate WebKit binary.
+    { name: "mobile-chromium", use: { ...devices["iPhone 13"], browserName: "chromium" } }
   ],
   webServer: {
     command: "python3 -m http.server 4173 --directory app",
