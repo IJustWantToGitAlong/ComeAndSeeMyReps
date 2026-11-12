@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f4f1eb"><meta name="description" content="Plan a room refresh with RoomRevamp.">
+<title>RoomRevamp — Your room, reimagined</title><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="#"><span class="brandmark">R</span> roomrevamp</a><span class="topnote">DESIGN STUDIO <i></i> FREE PLANNER</span></header>
+<main>
+<section class="hero"><div><p class="eyebrow">A FRESH TAKE ON YOUR SPACE</p><h1>Your room,<br><em>reimagined.</em></h1><p class="intro">Start with a photo. Find your style. Build a realistic shopping plan that respects your budget.</p></div><div class="hero-art" aria-hidden="true"><div class="sun"></div><div class="art-window"></div><div class="art-sofa"></div><div class="art-plant">✳</div></div></section>
+<div class="workspace">
+<section class="panel photo-panel"><div class="section-head"><span class="step">01</span><div><h2>Bring your room</h2><p>Choose a photo to get started</p></div></div>
+<label class="upload" for="roomPhoto"><span class="upload-icon">＋</span><strong>Upload a room photo</strong><span>JPG, PNG or WEBP · stays on this device</span><input id="roomPhoto" type="file" accept="image/*"></label>
+<div id="photoPreview" class="photo-preview" hidden><img id="previewImage" alt="Your uploaded room"><button id="removePhoto" class="text-button" type="button">Remove photo</button></div>
+<div class="sample-note">No photo handy? You can still build a plan below.</div></section>
+<section class="panel"><div class="section-head"><span class="step">02</span><div><h2>Set the scene</h2><p>Tell us what we're working with</p></div></div>
+<div class="field"><label for="roomType">Room</label><select id="roomType"><option>Living room</option><option>Bedroom</option><option>Dining room</option><option>Home office</option><option>Kitchen</option><option>Guest room</option><option>Studio apartment</option></select></div>
+<div class="field"><label for="roomSize">Approximate room size</label><select id="roomSize"><option value="Small · under 150 sq ft">Small · under 150 sq ft</option><option value="Medium · 150–300 sq ft" selected>Medium · 150–300 sq ft</option><option value="Large · 300–500 sq ft">Large · 300–500 sq ft</option><option value="Extra large · 500+ sq ft">Extra large · 500+ sq ft</option></select></div>
+<div class="field"><label>Choose your style</label><div class="styles" id="styles"><button class="style active" data-style="Warm minimal" type="button"><span class="swatch warm"></span>Warm minimal</button><button class="style" data-style="Modern" type="button"><span class="swatch modern"></span>Modern</button><button class="style" data-style="Scandinavian" type="button"><span class="swatch scandi"></span>Scandinavian</button><button class="style" data-style="Coastal" type="button"><span class="swatch coastal"></span>Coastal</button><button class="style" data-style="Industrial" type="button"><span class="swatch industrial"></span>Industrial</button><button class="style" data-style="Traditional" type="button"><span class="swatch traditional"></span>Traditional</button></div></div>
+</section>
+<section class="panel budget-panel"><div class="section-head"><span class="step">03</span><div><h2>Set your budget</h2><p>Furniture and decor spending target</p></div></div>
+<div class="budget-value"><span>Your total budget</span><output id="budgetOut" for="budget">$3,000</output></div><input id="budget" type="range" min="250" max="15000" step="50" value="3000"><div class="range-labels"><span>$250</span><span>$15,000+</span></div>
+<p class="fineprint">You can adjust the suggested shopping list to stay on target.</p></section>
+<section class="panel list-panel"><div class="section-head"><span class="step">04</span><div><h2>Build your shopping list</h2><p>Starting estimates you can edit</p></div></div><div id="shoppingList" class="shopping-list"></div><button id="addItem" class="add-button" type="button">＋ Add an item</button><div class="total-row"><span>Estimated total</span><strong id="total">$0</strong></div><div class="remaining-row"><span id="remainingLabel">Remaining budget</span><strong id="remaining">$0</strong></div><p class="fineprint">Prices are editable planning estimates, not live retailer quotes. Search links do not guarantee an exact product match.</p></section>
+<section class="panel output-panel"><div class="section-head"><span class="step">05</span><div><h2>Your design brief</h2><p>Generate a plan you can save or share</p></div></div><button id="generate" class="primary" type="button">Create my design brief <span>↗</span></button><pre id="brief" class="brief" aria-live="polite">Your room plan will appear here.</pre><div class="actions"><button id="copyBrief" class="secondary" type="button">Copy brief</button><button id="downloadBrief" class="secondary" type="button">Download .txt</button></div></section>
+</div>
+</main><footer>ROOMREVAMP · A BETTER ROOM STARTS WITH A PLAN</footer><script src="app.js"></script>
+</body></html>
